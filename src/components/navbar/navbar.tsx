@@ -37,7 +37,6 @@ export default function Navbar() {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [hoveredSubItem, setHoveredSubItem] = useState<MenuItem | null>(null);
 
-
   const toggleMenu = () => {
     setIsOpen(prev => !prev);
   };
@@ -61,7 +60,7 @@ export default function Navbar() {
   const handleSubMenuMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
       setHoveredSubItem(null);
-    }, 500); // Temporizador de 500 ms para "Formativa"
+    }, 500); 
   };
 
   useEffect(() => {
@@ -72,7 +71,7 @@ export default function Navbar() {
 
   const renderSubmenu = (items: SubMenuItem[]) => (
     <ul 
-      className="absolute left-0 mt-2 bg-white rounded shadow-lg"
+      className="absolute left-0 mt-1 bg-white rounded shadow-lg z-50 w-full"
       onMouseEnter={handleSubMenuMouseEnter}
       onMouseLeave={handleSubMenuMouseLeave}
     >
@@ -93,7 +92,7 @@ export default function Navbar() {
   );
 
   return (
-    <nav className="w-full flex items-center justify-between bg-red-600 h-16 z-40 px-8">
+    <nav className="w-full flex items-center justify-between bg-red-600 h-16 z-50 px-4 md:px-8 absolute">
       <Image 
         src="/logo.png" 
         alt="logo" 
@@ -102,7 +101,7 @@ export default function Navbar() {
       />
 
       <div className="md:hidden text-white text-3xl cursor-pointer" onClick={toggleMenu}>
-        ☰
+        {isOpen ? "✖" : "☰"}
       </div>
 
       <ul
@@ -110,133 +109,43 @@ export default function Navbar() {
           isOpen ? "block" : "hidden"
         } md:flex md:gap-8 md:text-lg md:text-white md:justify-center absolute md:static top-16 left-0 w-full bg-red-600 transition-transform duration-300 md:translate-y-0`}
       >
-        <li 
-          className={`cursor-pointer p-4 md:p-0 ${
-            hoveredItem === "inicio" ? "bg-red-800 text-white" : ""
-          }`}
-          onMouseEnter={() => handleMouseEnter("inicio")}
-          onMouseLeave={handleMouseLeave}
-        >
-          <Link href="/" className="transition-colors duration-300">
-            Inicio
-          </Link>
-        </li>
-        <li 
-          className="relative p-4 md:p-0" 
-          onMouseEnter={() => handleMouseEnter("club")} 
-          onMouseLeave={handleMouseLeave}
-        >
-          <span className="cursor-pointer hover:text-blue-300 transition-colors duration-300">
-            Club <span className="text-sm">&#x25BC;</span>
-          </span>
-          {hoveredItem === "club" && renderSubmenu([
-            { title: "historia", href: "#historia" },
-            { title: "palmares", href: "#palmares" }
-          ])}
-        </li>
-        <li 
-          className="relative p-4 md:p-0" 
-          onMouseEnter={() => handleMouseEnter("noticias")} 
-          onMouseLeave={handleMouseLeave}
-        >
-          <span className="cursor-pointer hover:text-blue-300 transition-colors duration-300">
-            Noticias <span className="text-sm">&#x25BC;</span>
-          </span>
-          {hoveredItem === "noticias" && renderSubmenu([
-            { title: "plantel profesional", href: "#plantel-profesional" }
-          ])}
-        </li>
-        <li 
-          className="relative p-4 md:p-0" 
-          onMouseEnter={() => handleMouseEnter("futbol")} 
-          onMouseLeave={handleMouseLeave}
-        >
-          <span className="cursor-pointer hover:text-blue-300 transition-colors duration-300">
-            Fútbol <span className="text-sm">&#x25BC;</span>
-          </span>
-          {hoveredItem === "futbol" && (
-            <ul className="absolute left-0 mt-2 bg-white rounded shadow-lg">
-              <li 
-                className={`p-2 ${hoveredSubItem === "equipo" ? "bg-red-800 text-white" : "text-black"}`}
-                onMouseEnter={() => setHoveredSubItem("equipo")}
-                onMouseLeave={handleSubMenuMouseLeave}
-              >
-                <Link href="#equipo-profesional" className="whitespace-nowrap">
-                  Equipo Profesional
-                </Link>
-              </li>
-              <li 
-                className={`relative p-2 ${hoveredSubItem === "formativa" ? "bg-red-800 text-white" : "text-black"}`}
-                onMouseEnter={() => {
-                  setHoveredSubItem("formativa");
-                  handleMouseEnter("futbol"); 
-                }}
-                onMouseLeave={handleSubMenuMouseLeave}
-              >
-                <span className="cursor-pointer whitespace-nowrap">
-                  Formativa <span className="text-sm">&#x25B6;</span>
+        {[
+          { title: "inicio", href: "/" },
+          { title: "club", submenu: [{ title: "historia", href: "#historia" }, { title: "palmares", href: "#palmares" }] },
+          { title: "noticias", submenu: [{ title: "plantel profesional", href: "#plantel-profesional" }] },
+          { title: "futbol", submenu: [
+            { title: "equipo", href: "#equipo-profesional" },
+            { title: "formativa", href: "#formativa" }
+          ] },
+          { title: "boleteria", submenu: [{ title: "comprar entradas", href: "#comprar-entradas" }, { title: "terminos y condiciones", href: "#terminos-y-condiciones" }] },
+          { title: "medios", submenu: [{ title: "dim radio", href: "#dim-radio" }, { title: "dim tv", href: "#dim-tv" }, { title: "dim revista", href: "#dim-revista" }] },
+          { title: "bonos", submenu: [{ title: "beneficios", href: "#beneficios" }] }
+        ].map((menuItem) => (
+          <li 
+            key={menuItem.title} 
+            className={`relative p-4 md:p-0`} 
+            onMouseEnter={() => handleMouseEnter(menuItem.title as MenuItem)} 
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="flex items-center justify-between">
+              <span className="cursor-pointer hover:text-blue-300 transition-colors duration-300">
+                {menuItem.title.charAt(0).toUpperCase() + menuItem.title.slice(1)}
+              </span>
+              {menuItem.submenu && (
+                <span className="cursor-pointer text-sm" onClick={() => {
+                  if (hoveredItem === menuItem.title) {
+                    setHoveredItem(null); // Close the submenu
+                  } else {
+                    setHoveredItem(menuItem.title as MenuItem); // Open the submenu
+                  }
+                }}>
+                  {hoveredItem === menuItem.title ? "▲" : "▼"}
                 </span>
-                {hoveredSubItem === "formativa" && (
-                  <ul className="absolute left-full top-0 mt-0 bg-white rounded shadow-lg">
-                    <li 
-                      className={`p-2 ${hoveredSubItem === "academias" ? "bg-red-800 text-white" : "text-black"}`}
-                      onMouseEnter={() => setHoveredSubItem("academias")}
-                      onMouseLeave={handleSubMenuMouseLeave}
-                    >
-                      <Link href="#academias-dim" className="whitespace-nowrap">Academias DIM</Link>
-                    </li>
-                    <li 
-                      className={`p-2 ${hoveredSubItem === "canteria" ? "bg-red-800 text-white" : "text-black"}`}
-                      onMouseEnter={() => setHoveredSubItem("canteria")}
-                      onMouseLeave={handleSubMenuMouseLeave}
-                    >
-                      <Link href="#canteria-dim" className="whitespace-nowrap">Cantería DIM</Link>
-                    </li>
-                  </ul>
-                )}
-              </li>
-            </ul>
-          )}
-        </li>
-        <li 
-          className="relative p-4 md:p-0" 
-          onMouseEnter={() => handleMouseEnter("boleteria")} 
-          onMouseLeave={handleMouseLeave}
-        >
-          <span className="cursor-pointer hover:text-blue-300 transition-colors duration-300">
-            Boletería <span className="text-sm">&#x25BC;</span>
-          </span>
-          {hoveredItem === "boleteria" && renderSubmenu([
-            { title: "comprar entradas", href: "#comprar-entradas" },
-            { title: "terminos y condiciones", href: "#terminos-y-condiciones" }
-          ])}
-        </li>
-        <li 
-          className="relative p-4 md:p-0" 
-          onMouseEnter={() => handleMouseEnter("medios")} 
-          onMouseLeave={handleMouseLeave}
-        >
-          <span className="cursor-pointer hover:text-blue-300 transition-colors duration-300">
-            Medios <span className="text-sm">&#x25BC;</span>
-          </span>
-          {hoveredItem === "medios" && renderSubmenu([
-            { title: "dim radio", href: "#dim-radio" },
-            { title: "dim tv", href: "#dim-tv" },
-            { title: "dim revista", href: "#dim-revista" }
-          ])}
-        </li>
-        <li 
-          className="relative p-4 md:p-0" 
-          onMouseEnter={() => handleMouseEnter("bonos")} 
-          onMouseLeave={handleMouseLeave}
-        >
-          <span className="cursor-pointer hover:text-blue-300 transition-colors duration-300">
-            DIM Bonos <span className="text-sm">&#x25BC;</span>
-          </span>
-          {hoveredItem === "bonos" && renderSubmenu([
-            { title: "beneficios", href: "#beneficios" }
-          ])}
-        </li>
+              )}
+            </div>
+            {isOpen && hoveredItem === menuItem.title && menuItem.submenu && renderSubmenu(menuItem.submenu as SubMenuItem[])}
+          </li>
+        ))}
       </ul>
     </nav>
   );

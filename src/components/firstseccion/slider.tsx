@@ -14,8 +14,8 @@ const sliderImages = [
     logoSrc: "/adidas-logo.png", 
     logoAlt: "Adidas Logo",
   },
-  { src: "/3.jpg", alt: "Fans", title: "LA MEJOR HINCHADA", description: "La pasión de nuestra hinchada" },
-  { src: "/4.jpg", alt: "Trophy", title: "NUESTROS LOGROS", description: "Celebrando nuestros éxitos" },
+  { src: "/cantera.jpg", alt: "Fans", title: "Actualidad", description: "de la cantera DIM" },
+  { src: "/tarjeta.jpeg", alt: "Trophy", title: "DESCUENTOS EN LA NUEVA CAMISA", description: "Con la tarjeta DIM" },
 ];
 
 const HeroSection: React.FC = () => {
@@ -54,7 +54,8 @@ const HeroSection: React.FC = () => {
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-r from-red-600/80 to-blue-900/80" />
-            <div className="absolute inset-0 flex items-center justify-center">
+            
+            <div className="absolute inset-0 flex flex-col justify-end items-center pb-10">
               <div className="text-center text-white">
                 <h1 className="text-5xl font-bold mb-4">{image.title}</h1>
                 <p className="text-xl mb-8">{image.description}</p>
@@ -65,11 +66,11 @@ const HeroSection: React.FC = () => {
                   Ver Itinerario
                 </Link>
               </div>
-           
+
               {index === 1 && (
                 <div className="absolute bottom-4 right-4 flex items-center">
                   <Image 
-                    src="/adidas-logo.png" 
+                    src="/didas.png" 
                     alt="Adidas Logo"
                     width={50} 
                     height={50}
@@ -78,7 +79,7 @@ const HeroSection: React.FC = () => {
                   <Image 
                     src="/logo.png"
                     alt="Medellín Logo"
-                    width={50}
+                    width={50} 
                     height={50}
                   />
                 </div>
@@ -86,10 +87,11 @@ const HeroSection: React.FC = () => {
             </div>
           </div>
         ))}
-        <button onClick={prevSlide} className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/50 p-2 rounded-full">
+
+        <button onClick={prevSlide} className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/50 p-2 rounded-full hidden md:block">
           <ChevronLeft size={24} className="text-red-600" />
         </button>
-        <button onClick={nextSlide} className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/50 p-2 rounded-full">
+        <button onClick={nextSlide} className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/50 p-2 rounded-full hidden md:block">
           <ChevronRight size={24} className="text-red-600" />
         </button>
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">

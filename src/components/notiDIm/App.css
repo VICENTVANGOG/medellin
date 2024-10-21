@@ -1,0 +1,104 @@
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .title {
+    text-align: center;
+    color: #1f3b8f;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+  }
+  
+
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 80px;
+  }
+
+  .card {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+    color: #d42f2f;
+    padding: 15px;
+    font-weight: bold;
+  }
+  
+  .card-content {
+    padding: 0 15px 15px 15px;
+    font-size: 1rem;
+    color: #333;
+    flex-grow: 1;
+  }
+  
+  .card-date {
+    padding: 10px;
+    font-size: 0.9rem;
+    color: #000000;
+    border-top: 1px solid #000000;
+    text-align: left;
+  }
+  
+  .pagination {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    background-color: transparent;
+    border: none;
+    font-size: 1.2rem;
+    color: #999;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  .pagination button.active {
+    color: #d42f2f;
+  }
+  
+  .pagination button:hover {
+    color: #1f3b8f;
+  }
+  
+
+  .card-controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    background-color: #d42f2f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn:hover {
+    background-color: #b52727;
+  }
+  
